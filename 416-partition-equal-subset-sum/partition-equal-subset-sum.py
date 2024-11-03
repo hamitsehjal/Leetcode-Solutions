@@ -1,29 +1,29 @@
 class Solution:
     def canPartition(self, nums: List[int]) -> bool:
-        '''
-        dp(0,target) -> Can we make target sum using elements from index i to end
-        '''
+
+        n = len(nums)
+        def dp(i,target):
+            if target == 0:
+                return True
+            if i < 0 or target < 0:
+                return False
+            
+            if memo[i][target] != -1:
+                return memo[i][target]
+            # is it possible to build (target) using any elements before ith element?
+            not_taken = dp(i-1,target)
+            # is it possible to build (target-nums[i]) using any elements before ith element?
+            taken = dp(i-1,target-nums[i]) 
+
+            memo[i][target] = taken or not_taken
+            return memo[i][target]
+    
         total = sum(nums)
-        if total % 2 != 0:
+        if total % 2 == 1:
             return False
         
         target = total // 2
         n = len(nums)
-        dp = [[False]*(target+1) for _ in range(n+1)]
+        memo = [[-1]*(target+1) for _ in range(n)]
 
-        # when sum is 0, we can always make it 
-        for i in range(n+1):
-            dp[i][0] = True
-        
-        for i in range(n-1,-1,-1):
-            for cur_target in range(1,target+1):
-                dp[i][cur_target] = dp[i+1][cur_target]
-
-                if nums[i] <= target:
-                    dp[i][cur_target] = dp[i][cur_target] or dp[i+1][cur_target-nums[i]]
-        
-        return dp[0][target]
-
-        
-
-        
+        return dp(n-1,target)
