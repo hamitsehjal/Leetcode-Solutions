@@ -7,12 +7,14 @@ class Solution:
                 return
 
             for num in nums:
-                if num not in curr:
+                if num not in seen:
                     curr.append(num)
+                    seen.add(num)
                     backtrack(curr)
-                    curr.pop()
+                    seen.remove(curr.pop())
 
         ans = []
+        seen = set()
         backtrack([])
         return ans
         
