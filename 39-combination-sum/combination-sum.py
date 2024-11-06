@@ -5,19 +5,16 @@ class Solution:
             if target == 0:
                 ans.append(comb.copy())
                 return
-            
-            if i >= len(candidates):
+
+            if i >= len(candidates) or target < 0:
                 return
             
             for j in range(i,len(candidates)):
                 elem = candidates[j]
-                if elem <= target:
-                    comb.append(elem)
-                    dfs(j,comb,target-elem)
-                    comb.pop()
-                   
+                comb.append(elem)
+                dfs(j,comb,target-elem)
+                comb.pop()
+
         ans = []
         dfs(0,[],target)
-
         return ans
-        
