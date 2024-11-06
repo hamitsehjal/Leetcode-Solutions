@@ -1,19 +1,17 @@
 class Solution:
     def permute(self, nums: List[int]) -> List[List[int]]:
-
-        def dfs(permutation):
-            if len(permutation) == len(nums):
-                ans.append(permutation[:])
-                return
-            
-            for num in nums:
-                if num not in permutation:
-                    permutation.append(num)
-                    dfs(permutation)
-                    permutation.pop()
-            
-            
+        if len(nums) == 0:
+            return [[]]
         
+
+        perms = self.permute(nums[1:])
         ans = []
-        dfs([])
+        for p in perms:
+            for i in range(len(p)+1):
+                p_copy = p.copy()
+                p_copy.insert(i,nums[0])
+                ans.append(p_copy)
+        
         return ans
+
+        
