@@ -6,14 +6,15 @@ class Solution:
                 ans.append(comb.copy())
                 return
 
-            if i >= len(candidates) or total > target:
+            if i >= len(candidates):
                 return
             
             for j in range(i,len(candidates)):
                 elem = candidates[j]
-                comb.append(elem)
-                dfs(j,comb,total+elem)
-                comb.pop()
+                if total+elem <= target:
+                    comb.append(elem)
+                    dfs(j,comb,total+elem)
+                    comb.pop()
 
         ans = []
         dfs(0,[],0)
