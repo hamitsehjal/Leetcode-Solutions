@@ -13,17 +13,17 @@ class Solution:
             
             return True
 
-        def backtrack(start: int, path: list):
-            if start == len(s):
-                res.append(path.copy())
+        def backtrack(i,part):
+            if i == len(s):
+                res.append(part.copy())
                 return
 
-            for end in range(start + 1, len(s)+1):
-                substring = s[start:end]
+            for j in range(i+1,len(s)+1):
+                substring = s[i:j]
                 if isPalindrome(substring):
-                    path.append(substring)
-                    backtrack(end,path)
-                    path.pop()
-        
+                    part.append(substring)
+                    backtrack(j,part)
+                    part.pop()
+
         backtrack(0,[])
         return res
