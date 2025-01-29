@@ -1,5 +1,3 @@
-from collections import deque
-
 # Definition for a binary tree node.
 # class TreeNode:
 #     def __init__(self, val=0, left=None, right=None):
@@ -8,26 +6,19 @@ from collections import deque
 #         self.right = right
 class Solution:
     def minDepth(self, root: Optional[TreeNode]) -> int:
+
         if root == None:
             return 0
         
-        queue = deque([root])
-        depth = 0
+        if root.left == None and root.right == None:
+            # leaf node
+            return 1
         
-        while queue:
-            depth += 1
-            for _ in range(len(queue)):
-                node = queue.popleft()
-                if node.left == None and node.right == None:
-                    # leaf node
-                    return depth
-                if node.left:
-                    queue.append(node.left)
-                if node.right:
-                    queue.append(node.right)
-            
-        return -1
-            
+        if root.left == None:
+            return 1 + self.minDepth(root.right)
+
+        if root.right == None:
+            return 1 + self.minDepth(root.left)
         
-        
+        return 1 + min(self.minDepth(root.left),self.minDepth(root.right))
         
