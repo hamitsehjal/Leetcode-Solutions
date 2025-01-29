@@ -6,21 +6,21 @@
 #         self.right = right
 class Solution:
     def goodNodes(self, root: TreeNode) -> int:
+        stack = [(root,float('-inf'))]
+        count = 0
 
-        def dfs(node,maxSoFar):
-
-            if not node:
-                return 0
-            
+        while stack:
+            node,maxSoFar = stack.pop()
             if node.val >= maxSoFar:
-                count = 1
-            else:
-                count = 0
-                
-            maxSoFar = max(maxSoFar,node.val)
-            count = count + dfs(node.left,maxSoFar) + dfs(node.right,maxSoFar)
-            return count
-        
+                count += 1
+            
+            maxSoFar = max(node.val,maxSoFar)
 
-        return dfs(root,float('-inf'))
+            if node.left:
+                stack.append((node.left,maxSoFar))
+            if node.right:
+                stack.append((node.right,maxSoFar))
+        
+        return count
+        
         
