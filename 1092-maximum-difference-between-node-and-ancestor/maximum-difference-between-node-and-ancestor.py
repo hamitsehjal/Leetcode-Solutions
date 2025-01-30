@@ -7,24 +7,19 @@
 class Solution:
     def maxAncestorDiff(self, root: Optional[TreeNode]) -> int:
 
-        stack = [(root,root.val,root.val)]
-        ans = float('-inf')
+        def dfs(node,ancestors):
+            nonlocal ans
+            if not node:
+                return
 
-        while stack:
-            node,curMax,curMin = stack.pop()
-            curMax = max(curMax,node.val)
-            curMin = min(curMin,node.val)
+            for ancestor in ancestors:
+                ans = max(ans,abs(node.val-ancestor))
             
-            if node.left == None and node.right == None:
-                # leaf node
-                ans = max(ans,abs(curMax-curMin))
-
-            
-
-            if node.left:
-                stack.append((node.left,curMax,curMin))
-            if node.right:
-                stack.append((node.right,curMax,curMin))
+            ancestors.append(node.val)
+            dfs(node.left,ancestors.copy())
+            dfs(node.right,ancestors.copy())
         
+        ans = float('-inf')
+        dfs(root,[])
         return ans
         
