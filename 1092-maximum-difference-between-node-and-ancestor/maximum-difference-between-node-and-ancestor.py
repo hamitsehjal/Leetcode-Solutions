@@ -8,18 +8,18 @@ class Solution:
     def maxAncestorDiff(self, root: Optional[TreeNode]) -> int:
 
         def dfs(node,ancestors):
-            nonlocal ans
+            ans = float('-inf')
             if not node:
-                return
+                return ans
 
             for ancestor in ancestors:
                 ans = max(ans,abs(node.val-ancestor))
             
             ancestors.append(node.val)
-            dfs(node.left,ancestors.copy())
-            dfs(node.right,ancestors.copy())
+            left = dfs(node.left,ancestors.copy())
+            right = dfs(node.right,ancestors.copy())
+
+            return max(left,right,ans)
         
-        ans = float('-inf')
-        dfs(root,[])
-        return ans
+        return dfs(root,[])
         
