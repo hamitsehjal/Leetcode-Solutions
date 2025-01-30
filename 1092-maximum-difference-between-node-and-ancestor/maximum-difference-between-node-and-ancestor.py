@@ -6,20 +6,27 @@
 #         self.right = right
 class Solution:
     def maxAncestorDiff(self, root: Optional[TreeNode]) -> int:
+        '''
+        Key insight: Given any two nodes on a same root-to-leaf path, they must have required ancestor-child relationship
 
-        def dfs(node,ancestors):
-            ans = float('-inf')
+        So we keep track of what's the max and min value in each root-to-leaf path and compare the diff among all root-to-leaf paths
+        '''
+
+        def dfs(node,cur_max,cur_min):
             if not node:
-                return ans
-
-            for ancestor in ancestors:
-                ans = max(ans,abs(node.val-ancestor))
+                return 0
             
-            ancestors.append(node.val)
-            left = dfs(node.left,ancestors.copy())
-            right = dfs(node.right,ancestors.copy())
+            cur_max = max(cur_max,node.val)
+            cur_min = min(cur_min,node.val)
 
-            return max(left,right,ans)
-        
-        return dfs(root,[])
+            if node.left == None and node.right == None:
+                return abs(cur_max - cur_min)
+            
+            left = dfs(node.left,cur_max,cur_min)
+            right = dfs(node.right,cur_max,cur_min)
+
+            return max(left,right)
+
+        return dfs(root,root.val,root.val)
+
         
