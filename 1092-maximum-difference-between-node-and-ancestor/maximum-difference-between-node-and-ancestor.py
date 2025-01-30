@@ -14,8 +14,10 @@ class Solution:
             node,curMax,curMin = stack.pop()
             curMax = max(curMax,node.val)
             curMin = min(curMin,node.val)
-
-            ans = max(ans,abs(curMax-curMin))
+            
+            if node.left == None and node.right == None:
+                # leaf node
+                ans = max(ans,abs(curMax-curMin))
 
             
 
