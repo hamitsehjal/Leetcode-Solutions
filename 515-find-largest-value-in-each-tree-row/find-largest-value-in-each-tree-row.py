@@ -13,7 +13,7 @@ class Solution:
         ans = []
 
         while queue:
-            cur_max = queue[0].val
+            cur_max = float('-inf')
 
             for _ in range(len(queue)):
                 node = queue.popleft()
