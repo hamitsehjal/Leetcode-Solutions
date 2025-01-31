@@ -7,29 +7,36 @@
 
 class Solution:
     def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
-        def find_path(root, target):
-            path = []
+
+        def find_path(root: 'TreeNode', target: 'TreeNode'):
+            
             def dfs(node):
                 if not node:
                     return False
+                
                 path.append(node)
                 if node == target:
                     return True
+                
                 if dfs(node.left) or dfs(node.right):
                     return True
+                
                 path.pop()
                 return False
+            
+            path = []
             dfs(root)
             return path
         
-        path_p = find_path(root, p)
-        path_q = find_path(root, q)
-        
+        p_path = find_path(root,p)
+        q_path = find_path(root,q)
+
         lca = None
-        min_len = min(len(path_p), len(path_q))
-        for i in range(min_len):
-            if path_p[i] == path_q[i]:
-                lca = path_p[i]
-            else:
+        for i in range((min(len(p_path),len(q_path)))):
+            if p_path[i] != q_path[i]:
                 break
+            lca = p_path[i]
+        
         return lca
+
+        
