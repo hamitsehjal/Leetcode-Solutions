@@ -15,19 +15,19 @@ class Solution:
         reverse = False
 
         while queue:
-            cur = []
+            cur = collections.deque()
             for _ in range(len(queue)):
                 node = queue.popleft()
-                cur.append(node.val)
+                if reverse:
+                    cur.appendleft(node.val)
+                else:
+                    cur.append(node.val)
                 if node.left:
                     queue.append(node.left)
                 if node.right:
                     queue.append(node.right)
-            
-            if reverse == True:
-                ans.append(cur[::-1])
-            else:
-                ans.append(cur)
+
+            ans.append(list(cur))
             reverse = not reverse
             
         return ans
