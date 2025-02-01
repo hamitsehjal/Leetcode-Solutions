@@ -22,19 +22,13 @@ class Solution:
 
         def dfs(node, low, high):
             if not node:
-                return
+                return 0
 
-            nonlocal total
             if low <= node.val <= high:
-                # in the range
-                total += node.val
-                dfs(node.left, low, high)
-                dfs(node.right, low, high)
+                return node.val + dfs(node.left, low, high) + dfs(node.right, low, high)
             elif node.val > high:
-                dfs(node.left, low, high)
+                return dfs(node.left, low, high)
             elif node.val < low:
-                dfs(node.right, low, high)
+                return dfs(node.right, low, high)
 
-        total = 0
-        dfs(root, low, high)
-        return total
+        return dfs(root, low, high)
