@@ -7,26 +7,29 @@
 class Solution:
     def closestValue(self, root: Optional[TreeNode], target: float) -> int:
 
-        def dfs(node):
-            if not node:
-                return
-            
-            dfs(node.left)
-            values.append(node.val)
-            dfs(node.right)
+        def dfs(root):
+            stack = []
+            cur = root
+
+            while stack or cur:
+                while cur:
+                    stack.append(cur)
+                    cur = cur.left
+                
+                node = stack.pop()
+                values.append(node.val)
+                cur = node.right
         
         values = []
         dfs(root)
 
-        dif = float('inf')
-        ans = float('inf')
-        for value in values:
-            new_dif = abs(value-target)
-            if new_dif < dif:
-                dif = new_dif
-                ans = value
+        ans = root.val
+        diff = float('inf')
 
+        for value in values:
+            if abs(value-target) < diff:
+                diff = abs(value-target)
+                ans = value
         
         return ans
-
         
