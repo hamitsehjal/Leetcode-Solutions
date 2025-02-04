@@ -5,32 +5,15 @@
 #         self.left = None
 #         self.right = None
 
-
 class Solution:
-    def lowestCommonAncestor(
-        self, root: "TreeNode", p: "TreeNode", q: "TreeNode"
-    ) -> "TreeNode":
+    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+        cur = root
 
-        def dfs(root, ancestors):
-
-            if not root:
-                return
-
-            ancestors.append(root)
-            nodeToAncestors[root] = ancestors
-
-            dfs(root.left, ancestors.copy())
-            dfs(root.right, ancestors.copy())
-
-        nodeToAncestors = collections.defaultdict(list)
-        dfs(root,[])
-
-        p_ancestors = nodeToAncestors[p]
-        q_ancestors = nodeToAncestors[q]
-
-        lca = None
-        for i in range(min(len(p_ancestors),len(q_ancestors))):
-            if p_ancestors[i] == q_ancestors[i]:
-                lca = p_ancestors[i]
+        while cur:
+            if p.val > cur.val and q.val > cur.val:
+                cur = cur.right
+            elif p.val < cur.val and q.val < cur.val:
+                cur = cur.left
+            else:
+                return cur
         
-        return lca
