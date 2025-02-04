@@ -9,16 +9,16 @@ class Solution:
 
         def dfs(node: TreeNode | None, curMax: int):
             if not node:
-                return
+                return 0
 
-            nonlocal count
+            ans = 0
             if node.val >= curMax:
-                count += 1
+                ans += 1
 
             curMax = max(curMax, node.val)
-            dfs(node.left, curMax)
-            dfs(node.right, curMax)
+            left = dfs(node.left, curMax)
+            right = dfs(node.right, curMax)
+
+            return left + right + ans
         
-        count = 0
-        dfs(root,float('-inf'))
-        return count
+        return dfs(root,float('-inf'))
