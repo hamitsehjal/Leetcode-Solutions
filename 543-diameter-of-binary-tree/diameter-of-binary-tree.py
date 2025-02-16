@@ -7,21 +7,22 @@
 class Solution:
     def diameterOfBinaryTree(self, root: Optional[TreeNode]) -> int:
 
-        def maxHeight(node):
-            '''
-            Returns the max height of a tree rooted at node
-            '''
-            nonlocal max_diameter
+        self.maxDiameter = 0
 
-            if not node:
-                return 0
-            
-            left = maxHeight(node.left)
-            right = maxHeight(node.right)
-            max_diameter = max(max_diameter,left+right)
-            return 1 + max(left,right)
+        self.maxDepth(root)
 
-        max_diameter = float('-inf')
-        maxHeight(root)
-        return max_diameter
+        return self.maxDiameter
+
+
+
+    def maxDepth(self,root: TreeNode|None)->int:
+        if not root:
+            return 0
+        
+        left = self.maxDepth(root.left)
+        right = self.maxDepth(root.right)
+
+        self.maxDiameter = max(self.maxDiameter,left+right)
+
+        return 1 + max(left,right)
         
