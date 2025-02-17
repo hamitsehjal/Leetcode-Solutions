@@ -7,20 +7,18 @@
 class Solution:
     def isBalanced(self, root: Optional[TreeNode]) -> bool:
 
-        def dfs(node):
-            if not node:
-                return (0, True)  # (depth,isBalanced)
-
-            left_depth, left_is_balanced = dfs(node.left)
-            right_depth, right_is_balanced = dfs(node.right)
-
-            balance_status = (
-                abs(left_depth - right_depth) <= 1
-                and left_is_balanced
-                and right_is_balanced
-            )
-
-            return (1 + max(left_depth, right_depth), balance_status)
-
-        _, status = dfs(root)
+        _,status = self.dfs(root)
         return status
+
+
+        
+    def dfs(self,root: TreeNode|None)->tuple[int,bool]:
+        if not root:
+            return (0,True)
+        
+        l_height,l_status = self.dfs(root.left)
+        r_height,r_status = self.dfs(root.right)
+
+        status = abs(l_height-r_height) <= 1 and l_status and r_status
+
+        return (1+max(l_height,r_height),status)
