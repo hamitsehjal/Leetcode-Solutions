@@ -14,6 +14,7 @@ class Solution:
         for selling in range(1, len(prices)):
             if prices[selling] < prices[buying]:
                 buying = selling
-            profit = max(profit, prices[selling] - prices[buying])
+            else:
+                profit = max(profit, prices[selling] - prices[buying])
 
         return profit
