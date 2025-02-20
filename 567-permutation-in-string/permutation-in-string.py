@@ -9,22 +9,23 @@ class Solution:
             count2[s2[i]] = 1 + count2.get(s2[i], 0)
 
         l = 0
-        if count1 == count2:
-            return True
-            
-        for r in range(len(s1),len(s2)):
-            
-            count2[s2[r]] = 1 + count2.get(s2[r],0)
-            count2[s2[l]] -= 1
-            if count2[s2[l]] == 0:
-                del count2[s2[l]]
-            
-            l += 1
-        
-            print(f"Count 1 - {count1}")
-            print(f"Count 2 - {count2}")
+        # if count1 == count2:
+        #     return True
+
+        for r in range(len(s1),len(s2)+1):
             if count1 == count2:
                 return True
+            
+            if r < len(s2):
+
+                count2[s2[r]] = 1 + count2.get(s2[r],0)
+                count2[s2[l]] -= 1
+                if count2[s2[l]] == 0:
+                    del count2[s2[l]]
+                
+                l += 1
+    
+            
 
         return False
 
