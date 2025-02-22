@@ -17,16 +17,12 @@ class Solution:
             root is the LCA
         if p and q are in same subtree
         """
-
-        if not root or root.val == p.val or root.val == q.val:
-            return root
-
-        if (p.val > root.val and q.val < root.val) or (
-            p.val < root.val and q.val > root.val
-        ):
-            return root
-
-        if p.val < root.val and q.val < root.val:
-            return self.lowestCommonAncestor(root.left, p, q)
-        else:
-            return self.lowestCommonAncestor(root.right, p, q)
+        cur = root
+        while cur:
+            if p.val < cur.val and q.val < cur.val:
+                cur = cur.left
+            elif p.val > cur.val and q.val > cur.val:
+                cur = cur.right
+            else:
+                return cur
+        
