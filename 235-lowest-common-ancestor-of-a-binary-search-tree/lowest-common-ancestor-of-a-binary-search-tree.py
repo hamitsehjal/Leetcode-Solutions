@@ -17,10 +17,8 @@ class Solution:
             root is the LCA
         if p and q are in same subtree
         """
-        if not root:
-            return root
 
-        if root.val == p.val or root.val == q.val:
+        if not root or root.val == p.val or root.val == q.val:
             return root
 
         if (p.val > root.val and q.val < root.val) or (
