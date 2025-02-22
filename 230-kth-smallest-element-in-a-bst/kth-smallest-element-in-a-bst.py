@@ -16,10 +16,11 @@ class Solution:
                 cur = cur.left
             
             node = stack.pop()
-            ans.append(node.val)
+            k -= 1
+            if k == 0:
+                return node.val
             cur = node.right
         
-        return ans[k-1]
         
 
         
