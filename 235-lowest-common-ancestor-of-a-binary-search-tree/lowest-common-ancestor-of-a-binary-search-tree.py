@@ -5,24 +5,30 @@
 #         self.left = None
 #         self.right = None
 
+
 class Solution:
-    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
-        # if not root or p == root or q == root:
-        #     return root
-        
-        # l = self.lowestCommonAncestor(root.left,p,q)
-        # r = self.lowestCommonAncestor(root.right,p,q)
+    def lowestCommonAncestor(
+        self, root: "TreeNode", p: "TreeNode", q: "TreeNode"
+    ) -> "TreeNode":
+        """
+        if root == p or root == q:
+            root is the LCA
+        if p is in left subtree and q is in right subtree:
+            root is the LCA
+        if p and q are in same subtree
+        """
+        if not root:
+            return root
 
-        # if l and r:
-        #     return root
-        
-        # return l or r
+        if root.val == p.val or root.val == q.val:
+            return root
 
-        cur = root
-        while cur:
-            if p.val > cur.val and q.val > cur.val:
-                cur = cur.right
-            elif p.val < cur.val and q.val < cur.val:
-                cur = cur.left
-            else:
-                return cur
+        if (p.val > root.val and q.val < root.val) or (
+            p.val < root.val and q.val > root.val
+        ):
+            return root
+
+        if p.val < root.val and q.val < root.val:
+            return self.lowestCommonAncestor(root.left, p, q)
+        if p.val > root.val and q.val > root.val:
+            return self.lowestCommonAncestor(root.right, p, q)
