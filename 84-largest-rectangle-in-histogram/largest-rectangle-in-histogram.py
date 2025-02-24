@@ -1,5 +1,6 @@
 class Solution:
     def largestRectangleArea(self, heights: List[int]) -> int:
+        heights.append(0)
         stack = [] # monotonic increasing stack
         max_area = 0
 
@@ -13,7 +14,4 @@ class Solution:
 
             stack.append((start,height))
         
-        while stack:
-            idx,h = stack.pop()
-            max_area = max(max_area,h*(len(heights)-idx))
         return max_area
