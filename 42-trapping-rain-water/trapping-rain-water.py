@@ -1,18 +1,23 @@
 class Solution:
     def trap(self, height: List[int]) -> int:
-        stack = []  # non-increasing stack
-        area = 0
+        maxLeft = [0] * len(height)
+        maxRight = [0] * len(height)
+        area = [0] * len(height)
+        
+        for i in range(1, len(height)):
+            maxLeft[i] = max(maxLeft[i - 1], height[i-1])
+
+        for i in range(len(height) - 2, -1, -1):
+            maxRight[i] = max(maxRight[i + 1], height[i+1])
+        
+
         for i in range(len(height)):
-            while stack and height[stack[-1]] < height[i]:
-                stack_top = stack.pop()
-                if stack:
-                    # stack[-1] is previous greater element
-                    # height[1] is next greater
-                    # stack_top is the gap
-                    h = min(height[stack[-1]], height[i]) - height[stack_top]
-                    w = i - (stack[-1] + 1)
-                    area += h * w
-
-            stack.append(i)
-
-        return area
+            area[i] = math.floor(min(maxLeft[i],maxRight[i]) - height[i])
+            if area[i] < 0:
+                area[i] = 0
+            
+        print(height)
+        print(maxLeft)
+        print(maxRight)
+        print(area)
+        return sum(area)
