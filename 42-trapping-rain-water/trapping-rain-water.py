@@ -6,13 +6,13 @@ class Solution:
             while stack and height[stack[-1]] < height[i]:
                 stack_top = stack.pop()
                 if stack:
-                    h = min(height[i], height[stack[-1]]) - height[stack_top]
+                    # stack[-1] is previous greater element
+                    # height[1] is next greater
+                    # stack_top is the gap
+                    h = min(height[stack[-1]], height[i]) - height[stack_top]
                     w = i - (stack[-1] + 1)
+                    area += h * w
 
-                    area = area + (w*h)
-                
-            
             stack.append(i)
-        
 
         return area
