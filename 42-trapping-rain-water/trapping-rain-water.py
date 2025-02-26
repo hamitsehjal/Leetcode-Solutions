@@ -3,7 +3,7 @@ class Solution:
         stack = []  # non-decreasing stack
         area = 0
         for i in range(len(height)):
-            while stack and height[stack[-1]] < height[i]:
+            while stack and height[stack[-1]] <= height[i]:
                 stack_top = stack.pop()
                 if stack:
                     # stack[-1] top of the stack is our left bounary
