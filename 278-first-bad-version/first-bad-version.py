@@ -4,14 +4,13 @@
 
 class Solution:
     def firstBadVersion(self, n: int) -> int:
-        lo, hi = 1, n
-        while lo < hi:
+        lo, hi = -1, n
+        while lo + 1 < hi:
             mid = (lo + hi) // 2
-            print(f"Low - {lo} | High - {hi} | Mid - {mid}")
             if isBadVersion(mid):
                 hi = mid
             else:
-                lo = mid + 1
+                lo = mid
 
         return hi
 
