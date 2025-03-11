@@ -1,43 +1,33 @@
 class Solution:
     def searchRange(self, nums: List[int], target: int) -> List[int]:
-        """
-        Finds the starting and ending positions of a given target value in a sorted array.
-        """
+        first = self.findFirstOccurence(nums, target)
+        last = self.findLastOccurence(nums, target)
 
-        def find_first(nums, target):
-            """
-            Finds the first occurrence of the target using the minimization template.
-            """
-            lo = 0
-            hi = len(nums) - 1
-            while lo < hi:
-                mid = lo + (hi - lo) // 2
-                if nums[mid] < target:
-                    lo = mid + 1
-                else:
-                    hi = mid
-            if lo < len(nums) and nums[lo] == target:
-                return lo
-            return -1
-
-        def find_last(nums, target):
-            """
-            Finds the last occurrence of the target using the maximization template.
-            """
-            lo = 0
-            hi = len(nums) - 1
-            while lo < hi:
-                mid = lo + (hi - lo + 1) // 2  # Bias towards right
-                if nums[mid] > target:
-                    hi = mid - 1
-                else:
-                    lo = mid
-            if lo < len(nums) and nums[lo] == target:
-                return lo
-            return -1
-
-        first = find_first(nums, target)
-        if first == -1:
-            return [-1, -1]
-        last = find_last(nums, target)
+        print([first, last])
         return [first, last]
+
+    def findFirstOccurence(self, nums: List[int], target: int) -> List[int]:
+        left = 0
+        right = len(nums) - 1
+        while left < right:
+            mid = left + (right - left) // 2
+            if nums[mid] >= target:  # Condition is True
+                right = mid  # Look for an earlier True
+            else:
+                left = mid + 1  # Condition is False, look to the right
+        if len(nums) == 0 or nums[left] != target:
+            return -1
+        return left
+
+    def findLastOccurence(self, nums: List[int], target: int) -> List[int]:
+        left = 0
+        right = len(nums) - 1
+        while left < right:
+            mid = left + (right - left + 1) // 2  # Bias towards the right
+            if nums[mid] <= target:  # Condition is True
+                left = mid  # Look for a later True
+            else:
+                right = mid - 1  # Condition is False, look to the left
+        if len(nums) == 0 or nums[left] != target:
+            return -1
+        return left
