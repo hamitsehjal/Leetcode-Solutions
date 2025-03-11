@@ -10,7 +10,8 @@ class Solution:
         left = 0
         right = len(nums) - 1
         while left < right:
-            mid = left + (right - left) // 2
+            # mid = left + (right - left) // 2
+            mid = (left + right) // 2
             if nums[mid] >= target:  # Condition is True
                 right = mid  # Look for an earlier True
             else:
@@ -23,7 +24,8 @@ class Solution:
         left = 0
         right = len(nums) - 1
         while left < right:
-            mid = left + (right - left + 1) // 2  # Bias towards the right
+            # mid = left + (right - left + 1) // 2  # Bias towards the right
+            mid = (left + right + 1) // 2  # Bias towards the right
             if nums[mid] <= target:  # Condition is True
                 left = mid  # Look for a later True
             else:
