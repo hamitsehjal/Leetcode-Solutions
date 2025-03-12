@@ -1,14 +1,15 @@
 class Solution:
     def arrangeCoins(self, n: int) -> int:
-        lo,hi = 1,n+1
+        l,r = 0,n
 
-        while lo + 1 < hi:
-            mid = (lo + hi) // 2
-            coins = (mid/2)*(mid+1)
+        while l < r:
+            mid = l + (r-l+1) // 2
+            coins = mid * (mid + 1)/2
 
+            print(f"Left - {l} || Right - {r} || Mid - {mid} || Coins - {coins}")
             if coins <= n:
-                lo = mid
+                l = mid
             else:
-                hi = mid
+                r = mid - 1
         
-        return lo
+        return l
