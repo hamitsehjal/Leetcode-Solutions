@@ -3,22 +3,18 @@ class Solution:
         n = len(nums)
         l,r = 0,n-1
 
-        while l <= r:
+        while l < r:
             mid = l + (r-l)//2
-            if mid == 0:
-                prev = float('-inf')
+            if self.isGreater(mid,n,nums):
+                r = mid
             else:
-                prev = nums[mid-1]
-            
-            if mid == n-1:
-                next = float('-inf')
-            else:
-                next = nums[mid+1]
-            
-            if nums[mid] < next:
                 l = mid + 1
-            elif nums[mid] < prev:
-                r = mid - 1
-            else:
-                return mid
+        
+        return l
+    
+    def isGreater(self,i,n,nums):
+        if i == n - 1:
+            return true
+        
+        return nums[i] > nums[i+1]
         
