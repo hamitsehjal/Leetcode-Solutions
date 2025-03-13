@@ -1,20 +1,24 @@
 class Solution:
     def findPeakElement(self, nums: List[int]) -> int:
-        l,r = -1,len(nums)-1
+        n = len(nums)
+        l,r = 0,n-1
 
-        def isGreater(i):
-            if i == len(nums)-1:
-                return True
+        while l <= r:
+            mid = l + (r-l)//2
+            if mid == 0:
+                prev = float('-inf')
             else:
-                return nums[i] > nums[i+1]
-
-        while l+1 < r:
-            mid = (l+r) // 2
-
-            if isGreater(mid):
-                r = mid
+                prev = nums[mid-1]
+            
+            if mid == n-1:
+                next = float('-inf')
             else:
-                l = mid
-        
-        return r
+                next = nums[mid+1]
+            
+            if nums[mid] < next:
+                l = mid + 1
+            elif nums[mid] < prev:
+                r = mid - 1
+            else:
+                return mid
         
