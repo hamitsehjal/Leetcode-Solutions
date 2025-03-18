@@ -10,7 +10,7 @@ class Solution:
         """
         dummy = ListNode(0,next=head)
         # Find the middle node
-        slow,fast = dummy,dummy.next
+        slow,fast = dummy.next,dummy.next.next
 
         while fast and fast.next:
             slow = slow.next
@@ -29,17 +29,17 @@ class Solution:
             cur = next_node
         
         # merge the two lists
-        list1 = dummy.next
-        list2 = prev
+        start = dummy.next
+        end = prev
 
-        while list1 and list1.next:
-            node_to_add = ListNode(list2.val)
-            node_to_add.next = list1.next
-            list1.next = node_to_add
+        while end:
+            next_start = start.next
+            next_end = end.next
 
-            list1 = list1.next.next
-            list2 = list2.next
+            start.next = end
+            end.next = next_start
+
+            start = next_start
+            end = next_end
         
-        if list1 and list2:
-            list1.next = list2
         
