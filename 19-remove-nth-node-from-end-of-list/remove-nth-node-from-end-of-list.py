@@ -11,12 +11,10 @@ class Solution:
         for _ in range(n):
             fast = fast.next
         
-        print(f"Slow - {slow} | Fast - {fast}")
         while fast.next:
             slow = slow.next
             fast = fast.next
         
-        print(f"Slow - {slow} | Fast - {fast}")
         slow.next = slow.next.next
 
         return dummy.next
