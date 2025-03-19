@@ -6,24 +6,21 @@
 class Solution:
     def swapPairs(self, head: Optional[ListNode]) -> Optional[ListNode]:
         dummy = ListNode(0,head)
-        cur,prev = head,dummy
+        prev,cur = dummy,head
 
-        # we need atleast two pairs to reverse
         while cur and cur.next:
 
-            # save ptrs
-            nextPair = cur.next.next
+            # save the ptrs
+            nxt_pair = cur.next.next
             second = cur.next
 
-            # reverse the pair
+            # reverse the current pair
             second.next = cur
-            cur.next = nextPair
+            cur.next = nxt_pair
             prev.next = second
 
-            # update the pairs
+            # update the ptrs
             prev = cur
-            cur = nextPair 
-
+            cur = nxt_pair
+            
         return dummy.next
-        
-        
