@@ -17,7 +17,6 @@ class LRUCache:
         self.tail.prev = self.head
 
     def remove(self,node:ListNode)->None:
-        print(f"Removing {node.val} | Next - {node.next.val} | Prev - {node.prev.val}")
         prev,nxt = node.prev,node.next
         prev.next = nxt
         nxt.prev = prev
@@ -60,7 +59,7 @@ class LRUCache:
             self.add(node)
             self.cache[key] = node
             self.count += 1
-            
+
             if self.count > self.cap:
                 # remove the LRU
                 lru = self.head.next
