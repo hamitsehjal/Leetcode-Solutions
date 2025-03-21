@@ -6,18 +6,21 @@
 class Solution:
     def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
         n = len(lists)
+
         if n == 0:
             return None
+
         if n == 1:
             return lists[0]
 
-        for i in range(1, n):
-            list1 = lists[i - 1]
-            list2 = lists[i]
+        mid = n // 2
+        left = lists[:mid]
+        right = lists[mid:]
 
-            lists[i] = self.mergeTwoLists(list1, list2)
+        left_list = self.mergeKLists(left)
+        right_list = self.mergeKLists(right)
 
-        return lists[n - 1]
+        return self.mergeTwoLists(left_list,right_list)
 
     def mergeTwoLists(self, list1: Optional[ListNode], list2: Optional[ListNode]):
         dummy = node = ListNode(-1)
