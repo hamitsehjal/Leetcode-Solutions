@@ -1,41 +1,30 @@
 class Solution:
     def findMedianSortedArrays(self, nums1: List[int], nums2: List[int]) -> float:
-        res,n1,n2 = self.sortedArray(nums1,nums2)
-        n = n1 + n2
-        mid = n // 2
-        if n%2 == 0:
-            # even
-            return (res[mid] + res[mid-1]) / 2
-        else:
-            return res[mid]
+        A,B = nums1,nums2
+        total = len(nums1) + len(nums2)
+        half = total // 2
 
+        if len(B) < len(A):
+            A,B = B,A
 
-    
-    def sortedArray(self, arr1: List[int], arr2: List[int]):
-        n1,n2 = len(arr1),len(arr2)
+        l,r = 0,len(A) - 1
 
-        l1,l2,i = 0,0,0
-        arr = [0] * (n1+n2)
+        while True:
+            i = (l + r) // 2
+            j = half - i - 2
 
-        while l1 < n1 and l2 < n2:
-            if arr1[l1] <= arr2[l2]:
-                arr[i] = arr1[l1]
-                l1 += 1
-                i += 1
-                
+            Aleft = A[i] if i >= 0 else float('-inf')
+            Aright = A[i+1] if (i+1) < len(A) else float('inf')
+            Bleft = B[j] if j >= 0 else float('-inf')
+            Bright = B[j+1] if (j+1) < len(B) else float('inf')
+
+            if Aleft <= Bright and Bleft <= Aright:
+                # correct partition
+                if total % 2:
+                    return min(Aright,Bright)
+                else:
+                    return (max(Aleft,Bleft) + min(Aright,Bright)) / 2
+            elif Aleft > Bright:
+                r = i - 1
             else:
-                arr[i] = arr2[l2]
-                l2 += 1
-                i += 1
-
-        while l1 < n1:
-            arr[i] = arr1[l1]
-            l1 += 1
-            i += 1
-
-        while l2 < n2:
-            arr[i] = arr2[l2]
-            l2 += 1
-            i += 1
-
-        return (arr,n1,n2)
+                l = i + 1
