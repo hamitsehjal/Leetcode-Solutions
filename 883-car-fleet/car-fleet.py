@@ -9,9 +9,10 @@ class Solution:
             p,s = pairs[i]
             arrival_time = (target - p)/s
 
-            if stack and stack[-1] >= arrival_time:
-                continue
-            
+            # time = arrival_time
+            while stack and stack[-1] >= arrival_time:
+                arrival_time = stack.pop()
+
             stack.append(arrival_time)
         
         return len(stack)
