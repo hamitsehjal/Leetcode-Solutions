@@ -9,8 +9,6 @@ class StockSpanner:
         if len(self.stack) > 0:
             while self.stack and self.stack[-1][1] <= price:
                 self.stack.pop()
-            
-            print(f"Index - {self.index} | stack - {self.stack}")
 
             if self.stack:
                 previous_greater = self.stack[-1][0]
