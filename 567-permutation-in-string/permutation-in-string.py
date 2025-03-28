@@ -14,11 +14,8 @@ class Solution:
 
         if s2_map == s1_map:
             return True
-
-        print(s1_map)
-        print(s2_map)
         l = 0
-        for r in range(len(s1),len(s2)):
+        for r in range(len(s1), len(s2)):
             ch = s2[r]
             s2_map[ch] = 1 + s2_map.get(ch, 0)
 
@@ -28,8 +25,6 @@ class Solution:
                 del s2_map[ch]
 
             l += 1
-            print(f" {l} | {r} | {s1_map}")
-            print(f" {l} | {r} | {s2_map}")
             if s2_map == s1_map:
                 return True
 
