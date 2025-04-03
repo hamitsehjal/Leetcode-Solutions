@@ -9,11 +9,9 @@ class MedianFinder:
 
     def addNum(self, num: int) -> None:
         heappush(self.maxHeap, -num)
-        condition1 = abs(len(self.maxHeap) - len(self.minHeap)) > 1
-        condition2 = (self.maxHeap and self.minHeap and -self.maxHeap[0] > self.minHeap[0])
-
-        print(f"Condition 1 - {condition1} | Condition 2 - {condition2}")
-        while abs(len(self.maxHeap) - len(self.minHeap)) > 1 or (self.maxHeap and self.minHeap and -self.maxHeap[0] > self.minHeap[0]):
+        while abs(len(self.maxHeap) - len(self.minHeap)) > 1 or (
+            self.maxHeap and self.minHeap and -self.maxHeap[0] > self.minHeap[0]
+        ):
             if abs(len(self.maxHeap) - len(self.minHeap)) > 1:
                 if len(self.maxHeap) > len(self.minHeap):
                     # remove from maxHeap
@@ -33,8 +31,6 @@ class MedianFinder:
                 heappush(self.minHeap, top)
 
     def findMedian(self) -> float:
-        # print(f"MaxHeap - {self.maxHeap}")
-        # print(f"MinHeap - {self.minHeap}")
         if len(self.maxHeap) == len(self.minHeap):
             return (-self.maxHeap[0] + self.minHeap[0]) / 2
         else:
