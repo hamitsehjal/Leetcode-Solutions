@@ -27,8 +27,6 @@ class Solution:
 
         ans = []
 
-        print(heap)
-
         while heap:
             node = heappop(heap)
             ans.append(node.word)
