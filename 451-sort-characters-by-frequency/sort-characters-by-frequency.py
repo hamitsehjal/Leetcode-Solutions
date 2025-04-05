@@ -1,11 +1,17 @@
+from collections import Counter,defaultdict
+
 class Solution:
     def frequencySort(self, s: str) -> str:
         counter = Counter(s)
-        counter = sorted(counter.items(),key=lambda x: (-x[1],x[0]))
+        buckets = defaultdict(list)
+
+        for ch,cnt in counter.items():
+            buckets[cnt].append(ch)
 
         ans = []
-        for ch,cnt in counter:
-            for _ in range(cnt):
-                ans.append(ch)
 
+        for i in range(len(s),0,-1):
+            for ch in buckets[i]:
+                ans.append(ch*i)
+        
         return "".join(ans)
