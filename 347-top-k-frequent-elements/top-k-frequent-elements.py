@@ -1,34 +1,25 @@
+from heapq import heappush,heappop
+
 class Solution:
     def topKFrequent(self, nums: List[int], k: int) -> List[int]:
-        """
-        [1,1,1,2,2,3], k = 2
+        freq = {}
 
-        1. Build a hashmap mapping element to its frequency
-            O(N)
-            {
-                1 -> 3
-                2 -> 2
-                3 -> 1
-            }
-
-        2. Convert the hashmap into a list of pairs (integer,frequency)
-        [(1,3),(2,2),(3,1)] - O(n)
-
-        3. Sort the above array based on the frequency in reverse order
-        [(1,3),(2,2),(3,1)] - O(n logn)
-
-        4. Build up the resultant array - O(k)
-        """
-
-        frequency = defaultdict(int)
         for num in nums:
-            frequency[num] += 1
+            freq[num] = 1 + freq.get(num,0)
+        
+        heap = [] # min-heap (pop off the one's with lowest freq)
 
-        pairs = sorted(frequency.items(), key=lambda x: x[1], reverse=True)
+        for key,val in freq.items():
+            heappush(heap,(val,key))
 
+            if len(heap) > k:
+                heappop(heap)
+        
         ans = []
-        for i in range(k):
-            ans.append(pairs[i][0])
+
+        while heap:
+            _,num = heappop(heap)
+            ans.append(num)
         
         return ans
 
