@@ -1,21 +1,22 @@
-import heapq as hq
+from heapq import heappush,heappop
 
 class Solution:
     def kClosest(self, points: List[List[int]], k: int) -> List[List[int]]:
-        maxHeap = []
-        for i,point in enumerate(points):
-            x,y = point[0],point[1]
-            dist = math.sqrt(x**2+y**2)
-            hq.heappush(maxHeap,(-dist,i))
+        """
+        we only want to store k closest one's
+        """
+        heap = [] # max-heap
 
-            if len(maxHeap) > k:
-                hq.heappop(maxHeap)
+        for i,(x,y) in enumerate(points):
+            dist = math.sqrt((x*x)+(y*y))
+            heappush(heap,(-dist,i))
+
+            if len(heap) > k:
+                heappop(heap)
         
         ans = []
-        while maxHeap:
-            _,idx = hq.heappop(maxHeap)
-            ans.append(points[idx])
+        while heap:
+            _,i = heappop(heap)
+            ans.append(points[i])
         
         return ans
-
-        
