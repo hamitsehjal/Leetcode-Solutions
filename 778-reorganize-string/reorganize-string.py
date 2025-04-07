@@ -4,13 +4,13 @@ class Solution:
         heap = [(-val, key) for key, val in counter.items()]
         heapq.heapify(heap)  # max-heap
 
-        ans = ""
+        ans = []
         prev_char = None
         prev_char_count = 0
 
         while heap:
             count, ch = heapq.heappop(heap)
-            ans += ch
+            ans.append(ch)
 
             if prev_char_count < 0:
                 heapq.heappush(heap, (prev_char_count, prev_char))
@@ -22,6 +22,8 @@ class Solution:
                 prev_char_count = 0
                 prev_char = None
 
+        ans = "".join(ans)
+        
         if len(ans) == len(s):
             return ans
 
