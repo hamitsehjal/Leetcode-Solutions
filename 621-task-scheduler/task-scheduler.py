@@ -9,7 +9,6 @@ class Solution:
         queue = collections.deque()  # ((cnt,ch), t)
 
         while heap or queue:
-            # print(f"time is {t} | heap - {heap} | Queue - {queue}")
             if heap:
                 cnt, task = heapq.heappop(heap)
                 if cnt + 1 != 0:
