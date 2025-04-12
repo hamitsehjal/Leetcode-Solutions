@@ -6,5 +6,4 @@ class Solution:
             if number[i] == "6":
                 new_version = number[:i] + "9" + number[i + 1 :]
                 cur = max(cur, int(new_version))
-        print(cur)
         return cur
