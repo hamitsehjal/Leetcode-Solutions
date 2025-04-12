@@ -6,11 +6,13 @@ class Solution:
         for num, count in counter.items():
             heapq.heappush(heap, [count, num])
 
-        while k > 0:
-            count, num = heapq.heappop(heap)
-            count -= 1
-            if count > 0:
-                heapq.heappush(heap, [count, num])
-            k -= 1
+        while k > 0 and len(heap) > 0:
+            if heap[0][0] <= k:
+                c, _ = heapq.heappop(heap)
+                k -= c
+            else:
+                c, num = heapq.heappop(heap)
+                heapq.heappush(heap, [c - k, num])
+                k = 0
 
         return len(heap)
