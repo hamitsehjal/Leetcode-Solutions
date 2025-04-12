@@ -2,11 +2,13 @@ class Solution:
     def asteroidsDestroyed(self, mass: int, asteroids: List[int]) -> bool:
         asteroids.sort()
 
-        for a in asteroids:
-            if mass >= a:
-                mass += a
+        count = 0
+
+        for rock in asteroids:
+            if mass >= rock:
+                count += 1
+                mass += rock
             else:
-                return False
-            
-        
-        return True
+                break
+
+        return count == len(asteroids)
