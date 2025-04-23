@@ -16,7 +16,7 @@ class Solution:
 
         def backtrack(start, cur):
             if len(cur) == len(digits):
-                ans.append("".join((cur[:])))
+                ans.append("".join(cur))
                 return
 
             for i in range(start, len(digits)):
