@@ -6,14 +6,12 @@ class Solution:
                 return
 
             for num in nums:
-                if num not in seen:
-                    seen.add(num)
+                if num not in cur:
                     cur.append(num)
                     backtrack(cur)
-                    seen.remove(cur.pop())
+                    cur.pop()
 
         res = []
-        seen = set()
         backtrack([])
 
         return res
