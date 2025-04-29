@@ -13,7 +13,6 @@ class Solution:
             for num in range(idx, 10):
                 if curSum+num <= n:
                     comb.append(num)
-                    print(f"bactrack({idx+1},{comb},{curSum+num})")
                     backtrack(num + 1, comb, curSum + num)
                     comb.pop()
 
