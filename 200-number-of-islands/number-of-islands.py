@@ -14,9 +14,10 @@ class Solution:
 
             grid[row][col] = "0"
 
-            for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
-                nxt_r, nxt_c = row + dx, col + dy
-                dfs(nxt_r, nxt_c)
+            dfs(row - 1, col)
+            dfs(row + 1, col)
+            dfs(row, col - 1)
+            dfs(row, col + 1)
 
         islands = 0
         for row in range(ROWS):
