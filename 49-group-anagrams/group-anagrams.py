@@ -11,7 +11,6 @@ class Solution:
         for key,val in group.items():
             ans.append(val)
         
-        print(ans)
         return ans
 
         
