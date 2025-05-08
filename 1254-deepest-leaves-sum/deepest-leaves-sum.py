@@ -10,24 +10,19 @@ class Solution:
             return 0
 
         ans = 0
-        depth = self.maxDepth(root)
-        queue = collections.deque([(root, 1)])  # node,level
+        queue = collections.deque([root])  
 
         while queue:
-            node, level = queue.popleft()
-            if level == depth:
-                ans += node.val
+            cur_sum = 0
+            for _ in range(len(queue)):
+                node = queue.popleft()
+                cur_sum += node.val
 
-            if node.left:
-                queue.append((node.left, level + 1))
+                if node.left:
+                    queue.append(node.left)
 
-            if node.right:
-                queue.append((node.right, level + 1))
-        
+                if node.right:
+                    queue.append(node.right)
+            ans = cur_sum
+
         return ans
-
-    def maxDepth(self, root: Optional[TreeNode]) -> int:
-        if not root:
-            return 0
-
-        return 1 + max(self.maxDepth(root.left), self.maxDepth(root.right))
