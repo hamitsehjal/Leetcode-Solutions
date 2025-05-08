@@ -3,9 +3,9 @@ class Solution:
 
         def backtrack(r, comb):
             if r == n:
-                ans.append(["".join(col) for col in comb])
-                return 
+                return [["".join(col) for col in comb]]
 
+            ans = []
             for c in range(n):
                 if (
                     c not in cols
@@ -17,19 +17,18 @@ class Solution:
                     antiDiagonals.add(r + c)
                     comb[r][c] = "Q"
 
-                    backtrack(r + 1, comb)
+                    ans.extend(backtrack(r + 1, comb))
 
                     comb[r][c] = "."
                     cols.remove(c)
                     diagonals.remove(r - c)
                     antiDiagonals.remove(r + c)
 
+            return ans
+
         cols = set()
         diagonals = set()
         antiDiagonals = set()
-        ans = []
         comb = [["." for _ in range(n)] for _ in range(n)]
 
-        backtrack(0, comb)
-
-        return ans
+        return backtrack(0, comb)
