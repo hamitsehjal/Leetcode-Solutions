@@ -1,33 +1,35 @@
 class Solution:
-    def findCheapestPrice(self, n: int, flights: List[List[int]], src: int, dst: int, k: int) -> int:
-        graph = collections.defaultdict(list)
-        for x, y, price in flights:
-            graph[x].append([y, price])
-        
-        # [cost, stops, city]
-        heap = [(0, 0, src)]
-        # Track best cost for each node at each stop count
-        visited = {}
-        
+    def findCheapestPrice(
+        self, n: int, flights: List[List[int]], src: int, dst: int, k: int
+    ) -> int:
+        graph = {}
+        for x, y, w in flights:
+            if x not in graph:
+                graph[x] = []
+            graph[x].append([y, w])
+
+        heap = [(0, 0, src)]  # cost,stops,city
+        visited = {}  # map (city,stops) -> cost
         while heap:
             cost, stops, city = heapq.heappop(heap)
-            
-            # If we reached destination, return cost
+
             if city == dst:
                 return cost
-            
-            # If we've used too many stops, continue
+
             if stops > k:
                 continue
-                
-            # Skip if we've seen this city with fewer stops at lower cost
+
+            # if we have visited this city with fewer stops at lower cost, then skip it
             if (city, stops) in visited and visited[(city, stops)] <= cost:
                 continue
-                
-            visited[(city, stops)] = cost
+
+            visited[(city,stops)] = cost
             
-            # Explore neighbors
-            for nei, price in graph[city]:
-                heapq.heappush(heap, (cost + price, stops + 1, nei))
-        
+            for pair in graph.get(city, []):
+                nei, weight = pair
+                updated_cost = cost + weight
+                updated_stops = stops + 1
+
+                heapq.heappush(heap, (updated_cost, updated_stops, nei))
+
         return -1
