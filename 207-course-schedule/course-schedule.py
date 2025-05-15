@@ -1,29 +1,31 @@
 class Solution:
     def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
         graph = collections.defaultdict(list)
-        for u, v in prerequisites:
-            graph[v].append(u)
 
-        indegree = {u: 0 for u in graph}
+        # creat a mapping course -> list of prerequisites
+        for crs, pre in prerequisites:
+            graph[crs].append(pre)
 
-        for node in graph:
-            for nei in graph[node]:
-                indegree[nei] = indegree.get(nei, 0) + 1
+        def dfs(crs):
+            if visited[crs] == 1:
+                # visiting again in the same dfs recursive chain
+                return False
 
-        queue = collections.deque([node for node in indegree if indegree[node] == 0])
+            if visited[crs] == 2:
+                return True
 
-        topo_order = []
+            visited[crs] = 1
 
-        while queue:
-            node = queue.popleft()
-            topo_order.append(node)
+            for pre in graph[crs]:
+                if not dfs(pre):
+                    return False
 
-            for nei in graph[node]:
-                indegree[nei] -= 1
-                if indegree[nei] == 0:
-                    queue.append(nei)
-
-        if len(topo_order) == len(indegree):
+            visited[crs] = 2
             return True
 
-        return False
+        visited = [0] * numCourses
+        for crs in range(numCourses):
+            if not dfs(crs):
+                return False
+
+        return True
