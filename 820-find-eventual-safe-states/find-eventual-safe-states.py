@@ -1,36 +1,24 @@
 class Solution:
     def eventualSafeNodes(self, graph: List[List[int]]) -> List[int]:
-        
+
         def dfs(node):
-            if states[node] == 1:
-                # visiting in same dfs chain
-                return False
-            
-            if states[node] == 2:
-                # safe node
-                return True
-            
-            states[node] = 1
+            if node in safe:
+                return safe[node]
+
+            safe[node] = False
 
             for nei in graph[node]:
                 if not dfs(nei):
                     return False
-            
-            states[node] = 2
+
+            safe[node] = True
             return True
-        
-        states = [0] * len(graph)
-        
-        for idx,node in enumerate(graph):
-            if len(node) == 0:
-                states[idx] = 2 # safe node
-        
 
-        ans = [] # collection of safe nodes
+        safe = {}
+        ans = []
 
-        for i in range(len(graph)):
-            if dfs(i):
-                ans.append(i)
+        for node in range(len(graph)):
+            if dfs(node):
+                ans.append(node)
 
         return ans
-        
