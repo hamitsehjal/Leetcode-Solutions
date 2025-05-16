@@ -29,10 +29,7 @@ class Solution:
         ans = [] # collection of safe nodes
 
         for i in range(len(graph)):
-            if not dfs(i):
-                states[i] = 1
-            else:
-                states[i] = 2
+            if dfs(i):
                 ans.append(i)
 
         return ans
