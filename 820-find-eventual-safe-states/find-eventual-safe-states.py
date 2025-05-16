@@ -1,24 +1,30 @@
 class Solution:
     def eventualSafeNodes(self, graph: List[List[int]]) -> List[int]:
+        reversedGraph = collections.defaultdict(list)
+        indegree = {}
+        for i in range(len(graph)):
+            indegree[i] = 0
 
-        def dfs(node):
-            if node in safe:
-                return safe[node]
+        for idx,pair in enumerate(graph):
+            for nei in pair:
+                reversedGraph[nei].append(idx)
+                indegree[idx] += 1
+        
 
-            safe[node] = False
+        queue = collections.deque([node for node in indegree if indegree[node] == 0])
 
-            for nei in graph[node]:
-                if not dfs(nei):
-                    return False
+        topo_order = []
 
-            safe[node] = True
-            return True
+        while queue:
+            node = queue.popleft()
+            topo_order.append(node)
+            for nei in reversedGraph[node]:
+                indegree[nei] -= 1
+                if indegree[nei] == 0:
+                    queue.append(nei)
+        
 
-        safe = {}
-        ans = []
+        return sorted(topo_order)
+        
 
-        for node in range(len(graph)):
-            if dfs(node):
-                ans.append(node)
 
-        return ans
