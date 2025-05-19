@@ -2,11 +2,8 @@ class Solution:
     def validPath(
         self, n: int, edges: List[List[int]], source: int, destination: int
     ) -> bool:
-        if source == destination:
-            return True
-            
-        graph = collections.defaultdict(list)
 
+        graph = collections.defaultdict(list)
         for u, v in edges:
             graph[u].append(v)
             graph[v].append(u)
@@ -16,14 +13,13 @@ class Solution:
                 return True
 
             ans = False
-
-            for neighbor in graph[node]:
-                if neighbor not in visited:
-                    visited.add(neighbor)
-                    if dfs(neighbor):
+            for nei in graph[node]:
+                if not visited[nei]:
+                    visited[nei] = True
+                    if dfs(nei):
                         ans = True
 
             return ans
 
-        visited = set([source])
+        visited = [False] * n
         return dfs(source)
