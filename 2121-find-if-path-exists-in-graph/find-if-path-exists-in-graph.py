@@ -21,5 +21,20 @@ class Solution:
 
             return ans
 
+        def bfs(node):
+            stack = [node]
+
+            while stack:
+                node = stack.pop()
+                if node == destination:
+                    return True
+                for nei in graph[node]:
+                    if not visited[nei]:
+                        visited[nei] = True
+                        stack.append(nei)
+
+            return False
+
         visited = [False] * n
-        return dfs(source)
+        visited[source] = True
+        return bfs(source)
