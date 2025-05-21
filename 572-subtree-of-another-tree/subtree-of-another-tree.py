@@ -5,37 +5,39 @@
 #         self.left = left
 #         self.right = right
 class Solution:
-    def isSubtree(self, root: Optional[TreeNode], subRoot: Optional[TreeNode]) -> bool:
-        if subRoot and not root:
+
+    def dfs(self, root: Optional[TreeNode], subRoot: Optional[TreeNode]) -> bool:
+        if not root and not subRoot:
+            return True
+        if not root or not subRoot:
+            return False
+        if root.val != subRoot.val:
             return False
 
-        if not subRoot:
-            return True
+        isLeftSame = self.dfs(root.left, subRoot.left)
+        isRightSame = self.dfs(root.right, subRoot.right)
 
-        stack = [root]
+        return isLeftSame and isRightSame
 
-        while stack:
-            node = stack.pop()
-            if node.val == subRoot.val:
-                if self.isSame(node, subRoot):
-                    return True
-            if node.left:
-                stack.append(node.left)
-            if node.right:
-                stack.append(node.right)
-        
-        return False
-
-    def isSame(self, root: TreeNode | None, subRoot: TreeNode | None) -> bool:
+    def isSubtree(self, root: Optional[TreeNode], subRoot: Optional[TreeNode]) -> bool:
         if not root and not subRoot:
             return True
 
         if not root or not subRoot:
             return False
 
-        if root.val != subRoot.val:
-            return False
+        queue = collections.deque([root])
 
-        return self.isSame(root.left, subRoot.left) and self.isSame(
-            root.right, subRoot.right
-        )
+        while queue:
+            node = queue.popleft()
+            if node.val == subRoot.val:
+                # potential match, check left and right subtree
+                if self.dfs(node, subRoot):
+                    return True
+
+            if node.left:
+                queue.append(node.left)
+            if node.right:
+                queue.append(node.right)
+
+        return False
