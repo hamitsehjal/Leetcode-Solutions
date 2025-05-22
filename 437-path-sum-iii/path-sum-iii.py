@@ -7,6 +7,7 @@
 class Solution:
     def pathSum(self, root, targetSum):
         def countPaths(node, curSum):
+            """Count Paths starting at a specific node"""
             if not node:
                 return 0
 
@@ -23,6 +24,7 @@ class Solution:
         if not root:
             return 0
 
+        """Visit each node exactly once as a starting point"""
         return (
             countPaths(root, 0)
             + self.pathSum(root.left, targetSum)
