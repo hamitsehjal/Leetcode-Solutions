@@ -5,26 +5,26 @@
 #         self.left = left
 #         self.right = right
 class Solution:
-    def pathSum(self, root: Optional[TreeNode], targetSum: int) -> int:
-
-        def countPath(node, target):
+    def pathSum(self, root, targetSum):
+        def countPaths(node, curSum):
             if not node:
                 return 0
 
-            count = 0
-            if node.val == target:
-                count = 1
+            curSum += node.val
+            ans = 0
+            if targetSum == curSum:
+                ans = 1
 
-            count += countPath(node.left, target - node.val)
-            count += countPath(node.right, target - node.val)
+            ans += countPaths(node.left, curSum)
+            ans += countPaths(node.right, curSum)
 
-            return count
+            return ans
 
         if not root:
             return 0
 
         return (
-            countPath(root, targetSum)
+            countPaths(root, 0)
             + self.pathSum(root.left, targetSum)
             + self.pathSum(root.right, targetSum)
         )
