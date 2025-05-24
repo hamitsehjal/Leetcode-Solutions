@@ -3,11 +3,12 @@ class Solution:
         self.parent = {}
         self.rank = {}
 
+        ans = []
         for u,v in edges:
             if not self.union(u,v):
-                return [u,v]
+                ans.append([u,v])
         
-        return [-1,-1]
+        return ans[-1]
 
     def find(self, u):
         if u not in self.parent:
