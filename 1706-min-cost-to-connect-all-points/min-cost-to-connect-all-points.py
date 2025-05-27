@@ -1,52 +1,32 @@
-class UnionFind:
-    def __init__(self, size):
-        self.parent = [i for i in range(size)]
-        self.rank = [0] * size
-
-    def find(self, u):
-        if self.parent[u] == u:
-            return self.parent[u]
-
-        self.parent[u] = self.find(self.parent[u])
-        return self.parent[u]
-
-    def union(self, u, v):
-        pu, pv = self.find(u), self.find(v)
-
-        if pu == pv:
-            return False
-
-        if self.rank[pu] > self.rank[pv]:
-            self.parent[pv] = pu
-        elif self.rank[pu] < self.rank[pv]:
-            self.parent[pu] = pv
-        else:
-            self.parent[pv] = pu
-            self.rank[pu] += 1
-
-        return True
-
+import heapq
 
 class Solution:
     def minCostConnectPoints(self, points: List[List[int]]) -> int:
-
-        edges = []  # u,v,weight
-
-        for i in range(len(points)):
-            for j in range(i + 1, len(points)):
-                x1, y1 = points[i]
-                x2, y2 = points[j]
-                distance = abs(x2 - x1) + abs(y2 - y1)
-                edges.append([i, j, distance])
-
-        edges = sorted(edges, key=lambda x: x[2])
-        uf = UnionFind(len(points))
-        minCost = 0
-
-        for u, v, w in edges:
-            if uf.union(u, v):
-                minCost += w
-            else:
+        n = len(points)
+        
+        # Calculate Manhattan distance between two points
+        def manhattan_distance(i, j):
+            return abs(points[i][0] - points[j][0]) + abs(points[i][1] - points[j][1])
+        
+        # Prim's algorithm
+        visited = [False] * n
+        min_heap = [(0, 0)]  # (cost, node_index)
+        total_cost = 0
+        
+        while min_heap:
+            cost, u = heapq.heappop(min_heap)
+            
+            if visited[u]:
                 continue
-
-        return minCost
+            
+            # Add node to MST
+            visited[u] = True
+            total_cost += cost
+            
+            # Add all edges from current node to unvisited nodes
+            for v in range(n):
+                if not visited[v]:
+                    distance = manhattan_distance(u, v)
+                    heapq.heappush(min_heap, (distance, v))
+        
+        return total_cost
