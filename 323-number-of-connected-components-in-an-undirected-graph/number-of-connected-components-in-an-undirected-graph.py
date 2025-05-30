@@ -1,29 +1,34 @@
+
 class Solution:
     def countComponents(self, n: int, edges: List[List[int]]) -> int:
-        graph = collections.defaultdict(list)
-        for a, b in edges:
-            graph[a].append(b)
-            graph[b].append(a)
+        parent = [i for i in range(n)]
+        rank = [0] * n
 
-        visited = set()
-        connectedComponents = 0
+        def find(u):
+            if parent[u] == u:
+                return u
+            
+            parent[u] = find(parent[u])
+            return parent[u]
+        
+        def union(u,v):
+            pu,pv = find(u),find(v)
 
-        for i in range(n):
-            if i not in visited:
-                self.dfs(i, visited, graph)
-                connectedComponents += 1
+            if pu == pv:
+                return
+            
+            if rank[pu] > rank[pv]:
+                parent[pv] = pu
+            elif rank[pu] < rank[pv]:
+                parent[pu] = pv
+            else:
+                parent[pv] = pu
+                rank[pu] += 1
+        
 
-        return connectedComponents
+        for u,v in edges:
+            union(u,v)
+        
+        return len(set([find(i) for i in range(n)]))
 
-    def dfs(self, node, visited, graph):
-
-        stack = [node]
-        visited.add(node)
-
-        while stack:
-            n = stack.pop()
-
-            for neighbor in graph[n]:
-                if neighbor not in visited:
-                    visited.add(neighbor)
-                    stack.append(neighbor)
+            
