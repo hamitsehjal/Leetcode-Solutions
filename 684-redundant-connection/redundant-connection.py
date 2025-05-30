@@ -1,8 +1,11 @@
 class Solution:
     def findRedundantConnection(self, edges: List[List[int]]) -> List[int]:
         n = len(edges)
-        parent = {u + 1: u + 1 for u in range(n)}
-        rank = {u + 1: 0 for u in range(n)}
+        # parent = {u + 1: u + 1 for u in range(n)}
+        # rank = {u + 1: 0 for u in range(n)}
+
+        parent = [u for u in range(n + 1)]
+        rank = [0 for _ in range(n + 1)]
 
         def find(u):
             if parent[u] == u:
