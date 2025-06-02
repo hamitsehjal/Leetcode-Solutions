@@ -1,25 +1,26 @@
-import heapq
-
-
 class Solution:
     def networkDelayTime(self, times: List[List[int]], n: int, k: int) -> int:
-
         graph = defaultdict(list)
         for u, v, w in times:
-            graph[u].append((w, v))  # weight,vertex
+            graph[u].append([v, w])  # neighbour,weight
 
-        visited = set()
-        minHeap = [(0, k)]
+        distances = {u + 1: float("inf") for u in range(n)}
+        distances[k] = 0
+        pq = [[0, k]]  # weight,node
 
-        while minHeap:
-            travel_time, node = heapq.heappop(minHeap)
-            visited.add(node)
+        while pq:
+            current_weight, node = heapq.heappop(pq)
+            if current_weight > distances[node]:
+                continue
 
-            if len(visited) == n:
-                return travel_time
+            for nei, wei in graph[node]:
+                weight = current_weight + wei
+                if weight < distances[nei]:
+                    distances[nei] = weight
+                    heapq.heappush(pq, [weight, nei])
 
-            for time, nei in graph[node]:
-                if nei not in visited:
-                    heapq.heappush(minHeap, (time+travel_time, nei))
+        ans = max(distances.values())
+        if ans == float("inf"):
+            return -1
 
-        return -1
+        return ans
