@@ -2,41 +2,34 @@ class Solution:
     def findCheapestPrice(
         self, n: int, flights: List[List[int]], src: int, dst: int, k: int
     ) -> int:
-        """
-        0 -> [(1,1),(5,2)]
-        1 -> [(1,2)]
-        2 -> [(1,3)]
+        graph = {}
+        for x, y, w in flights:
+            if x not in graph:
+                graph[x] = []
+            graph[x].append([y, w])
 
-        pq = [(0,0,0)]
+        heap = [(0, 0, src)]  # cost,stops,city
+        visited = {}  # map (city,stops) -> cost
+        while heap:
+            cost, stops, city = heapq.heappop(heap)
 
-        """
+            if city == dst:
+                return cost
 
-        graph = {u: [] for u in range(n)}
-        for u, v, w in flights:
-            graph[u].append([w, v])
-
-        pq = [(0, 0, src)]  # cost,stops,node
-        costs = [float("inf")] * n
-        costs[src] = 0
-        visited = {} # mapping (city,stops) -> cost
-        
-        while pq:
-            cur_cost, stops, u = heapq.heappop(pq)
-            if u == dst:
-                return cur_cost
-
-            # if cur_cost > costs[u]:
-            #     continue
-            
-            if (u,stops) in visited and visited[(u,stops)] <= cur_cost:
+            if stops > k:
                 continue
 
-            visited[(u,stops)] = cur_cost
-            
-            for c, v in graph[u]:
+            # if we have visited this city with fewer stops at lower cost, then skip it
+            if (city, stops) in visited and visited[(city, stops)] <= cost:
+                continue
 
-                if stops > k:
-                    continue
-                heapq.heappush(pq, [cur_cost + c, stops+1, v])
+            visited[(city,stops)] = cost
+            
+            for pair in graph.get(city, []):
+                nei, weight = pair
+                updated_cost = cost + weight
+                updated_stops = stops + 1
+
+                heapq.heappush(heap, (updated_cost, updated_stops, nei))
 
         return -1
