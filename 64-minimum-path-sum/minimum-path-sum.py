@@ -6,7 +6,7 @@ class Solution:
 
         # Fill first row
         for c in range(1, n):
-            dp[0][c] = dp[0][c - 1] + grid[0][c]
+            dp[0][c] = dp[0][c-1] + grid[0][c]
 
         # Fill first column
         for r in range(1, m):
