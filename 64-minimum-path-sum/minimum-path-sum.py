@@ -13,18 +13,15 @@ class Solution:
 
         for r in range(m):
             for c in range(n):
-                val_1, val_2 = -1, -1
+                val_1, val_2 = float('inf'),float('inf')
+
                 if 0 <= r - 1 < m:
                     val_1 = dp[r - 1][c]
                 if 0 <= c - 1 < n:
                     val_2 = dp[r][c - 1]
 
-                if val_1 == -1 and val_2 == -1:
+                if val_1 == float('inf') and val_2 == float('inf'):
                     dp[r][c] = grid[r][c]
-                elif val_1 == -1:
-                    dp[r][c] = val_2 + grid[r][c]
-                elif val_2 == -1:
-                    dp[r][c] = val_1 + grid[r][c]
                 else:
                     dp[r][c] = min(val_1, val_2) + grid[r][c]
 
