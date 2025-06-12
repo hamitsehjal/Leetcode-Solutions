@@ -2,21 +2,31 @@ class Solution:
     def minimumTotal(self, triangle: List[List[int]]) -> int:
         ROWS = len(triangle)
         dp = [0] * ROWS
-        for i, row in enumerate(triangle):
-            dp[i] = [0] * len(row)
+        dp[0] = triangle[0][0]
 
-        dp[0][0] = triangle[0][0]
 
-        for r in range(1, ROWS):
+        for r in range(1,ROWS):
             cols = len(triangle[r])
+            new_dp = [0] * cols
+
             for c in range(cols):
-                if 0 <= c - 1 < cols - 1 and 0 <= c < cols - 1:
-                    dp[r][c] = min(dp[r - 1][c - 1], dp[r - 1][c])
-                elif 0 <= c - 1 < cols - 1:
-                    dp[r][c] = dp[r - 1][c - 1]
+                """
+                For each position, we can come from:
+                1. dp[c-1]: from upper left
+                2. dp[c]: direct above
+                """
+                if c == 0:
+                    # leftmost position, can only come from direct obove
+                    new_dp[c] = dp[c]
+                elif c == cols-1:
+                    # rightmost position, can only come from upper left
+                    new_dp[c] = dp[c-1]
                 else:
-                    dp[r][c] = dp[r - 1][c]
+                    new_dp[c] = min(dp[c],dp[c-1])
+                
+                new_dp[c] += triangle[r][c]
+            
+            dp = new_dp
+        
 
-                dp[r][c] += triangle[r][c]
-
-        return min(dp[ROWS - 1])
+        return min(dp)
