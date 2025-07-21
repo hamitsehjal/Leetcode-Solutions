@@ -8,19 +8,16 @@ class Solution:
                 return 0
 
             if (r, c) not in cache:
+                right = helper(r, c + 1)
+                down = helper(r + 1, c)
+                diag = helper(r + 1, c + 1)
+
                 cache[(r, c)] = 0
-
                 if matrix[r][c] == "1":
-                    right = helper(r, c + 1)
-                    down = helper(r + 1, c)
-                    diag = helper(r + 1, c + 1)
-
                     cache[(r, c)] = 1 + min(right, down, diag)
 
             return cache[(r, c)]
 
-        for r in range(ROWS):
-            for c in range(COLS):
-                helper(r, c)
+        helper(0,0)
 
         return max(cache.values()) ** 2
