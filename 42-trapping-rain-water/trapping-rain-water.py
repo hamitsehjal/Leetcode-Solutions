@@ -1,33 +1,46 @@
 class Solution:
     def trap(self, height: List[int]) -> int:
         """
-        - How much water can be stored at each index?
-        - For each index, we need to calculate the highest bar on left and right of each index
+        - height of the highest bar on the left
+        - height of the highest bar on the right
+
+        Approach 1:
+        - during first cycle, for each index, the find the height of highest bar on the left
+        - druing second cycle, for each index, find the height of the highest bar on the right
+
+        - for final result,
+        max_left < current height < max_right ??
+        - min(max_left,max_right) - current_height
+        - repeat the above process for each index - O(N)
+
+        - O(3N) = O(N) linear time complexity
+        - O(2N) = O(N) space for storing those left and right maxiums
         """
-
         n = len(height)
-        left = [0]*n
-        right = [0]*n
+        maxHeightsLeft = [0]*n
+        maxHeightsRight = [0]*n
 
-        # each value corresponds to the height of the heighest bar to left of it
-        max_h = height[0]
+        cur_max = height[0]
         for i in range(1,n):
-            left[i] = max_h
-            max_h = max(max_h,height[i])
-
+            maxHeightsLeft[i] = cur_max
+            cur_max = max(cur_max,height[i])
+            
         
-        max_h = height[n-1]
+
+        cur_max = height[n-1]
         for i in range(n-2,-1,-1):
-            right[i] = max_h
-            max_h = max(max_h,height[i])
+            maxHeightsRight[i] = cur_max
+            cur_max = max(cur_max,height[i])
         
         ans = 0
         for i in range(n):
+            max_l = maxHeightsLeft[i]
+            max_r = maxHeightsRight[i]
             cur_h = height[i]
-            left_h = left[i]
-            right_h = right[i]
 
-            if left_h > cur_h and right_h > cur_h:
-                ans += min(left_h,right_h) - cur_h
+            if cur_h < max_l and cur_h < max_r:
+                area = min(max_l,max_r) - cur_h
+                ans += area
+
         
         return ans
