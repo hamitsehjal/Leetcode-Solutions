@@ -1,28 +1,25 @@
 class Solution:
     def trap(self, height: List[int]) -> int:
-        if not height or len(height) < 3:
-            return 0
-        
-        left, right = 0, len(height) - 1
-        left_max, right_max = 0, 0
-        water_trapped = 0
+        n = len(height)
+        left, right = 0, n - 1
+        leftMax, rightMax = height[left], height[right]
+        ans = 0
         
         while left < right:
-            if height[left] < height[right]:
-                # Process left side
-                if height[left] >= left_max:
-                    left_max = height[left]
-                else:
-                    # Water can be trapped here
-                    water_trapped += left_max - height[left]
+            if leftMax < rightMax:
+                # max(leftMax,rightMax) = leftMax, so we don't need to worry about right Max
                 left += 1
-            else:
-                # Process right side
-                if height[right] >= right_max:
-                    right_max = height[right]
+                if height[left] < leftMax:
+                    # water can be trapped
+                    ans += leftMax - height[left]
                 else:
-                    # Water can be trapped here
-                    water_trapped += right_max - height[right]
+                    leftMax = height[left]
+            else:
                 right -= 1
+                if height[right] < rightMax:
+                    # water can be trapped
+                    ans += rightMax - height[right]
+                else:
+                    rightMax = height[right]
         
-        return water_trapped
+        return ans
