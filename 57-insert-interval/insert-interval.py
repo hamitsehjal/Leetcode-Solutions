@@ -12,7 +12,6 @@ class Solution:
         insertion_point = self.findInsertionPoint(intervals, newInterval)
         intervals.insert(insertion_point, newInterval)
 
-        print(f"Intervals before insertion",intervals)
         return self.mergeOverlappingIntervals(intervals)
 
     def findInsertionPoint(
