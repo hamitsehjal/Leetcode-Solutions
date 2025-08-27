@@ -2,42 +2,36 @@ class Solution:
     def insert(
         self, intervals: List[List[int]], newInterval: List[int]
     ) -> List[List[int]]:
-        """
-        Approach 1:
-        - find the insertion point and insert it
-            - binary search based on start time
-            - result: [[1,3],[2,5],[6,9]]
-        - merge the overlapping intervals
-        """
+
         insertion_point = self.findInsertionPoint(intervals, newInterval)
         intervals.insert(insertion_point, newInterval)
 
-        return self.mergeOverlappingIntervals(intervals)
+        return self.mergeIntervals(intervals)
 
     def findInsertionPoint(
         self, intervals: List[List[int]], newInterval: List[int]
     ) -> int:
-        l, r = 0, len(intervals) - 1
+        left, right = 0, len(intervals) - 1
 
-        while l <= r:
-            mid = (l + r) // 2
-            start_time = intervals[mid][0]
-            if start_time == newInterval[0]:
+        while left <= right:
+            mid = (left + right) // 2
+
+            if intervals[mid][0] == newInterval[0]:
                 return mid
-            elif start_time < newInterval[0]:
-                l += 1
+            elif intervals[mid][0] < newInterval[0]:
+                left += 1
             else:
-                r -= 1
+                right -= 1
 
-        return l
+        return left
 
-    def mergeOverlappingIntervals(self, intervals: List[List[int]]) -> List[List[int]]:
+    def mergeIntervals(self, intervals: List[List[int]]) -> List[List[int]]:
         merged = []
-
         for interval in intervals:
             if not merged or interval[0] > merged[-1][1]:
                 merged.append(interval)
             else:
-                merged[-1] = [merged[-1][0], max(merged[-1][1], interval[1])]
+                merged[-1][0] = min(interval[0], merged[-1][0])
+                merged[-1][1] = max(interval[1], merged[-1][1])
 
         return merged
