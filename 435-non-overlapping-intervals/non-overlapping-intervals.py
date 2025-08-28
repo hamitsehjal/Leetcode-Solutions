@@ -1,21 +1,18 @@
 class Solution:
     def eraseOverlapIntervals(self, intervals: List[List[int]]) -> int:
-        sorted_intervals = sorted(intervals, key=lambda x: x[0])
+        """
+        1. Find the number of non-overlapping intervals
+        2. Subtract that from total to find the answer
+        """
+        if not intervals:
+            return 0
+        sorted_intervals = sorted(intervals,key = lambda x: x[1])
+        count = 1
+        end = sorted_intervals[0][1]
 
-        merged = []
-        removals = 0
+        for i in range(1,len(sorted_intervals)):
+            if sorted_intervals[i][0] >= end:
+                end = sorted_intervals[i][1]
+                count += 1
 
-        for interval in sorted_intervals:
-            if not merged or interval[0] >= merged[-1][1]:
-                merged.append(interval)
-            else:
-                # conflict
-                merged[-1][0] = min(
-                    merged[-1][0], interval[0]
-                )  # prefer smaller value to minimize future overlapping
-                merged[-1][1] = min(
-                    merged[-1][1], interval[1]
-                )  # prefer smaller value to minimize future overlapping
-                removals += 1
-
-        return removals
+        return len(intervals)-count
