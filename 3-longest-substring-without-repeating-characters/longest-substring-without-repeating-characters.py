@@ -1,27 +1,32 @@
-class Solution:
-    def lengthOfLongestSubstring(self, s: str) -> int:
+class Solution(object):
+    def lengthOfLongestSubstring(self, s):
+        # Given string
+        # return - longest substring without duplicates
+        
+        # s = "abcabcbb"
+        
+        
+        # s1 = "adebcbefgh"
+        # s = " ", output: 0, expcted: 1
+        
         """
-        Length -> count
-        of longest substring without duplicate characters
-        s = "abcabcbb"
-
-        l = 0
-        r = 0
-        seen = {b,c,a}
-        ans = 3
+        s = "a"; expected 1
+        s1 = "abcd"
         """
-        l = 0
-        ans = 0
-        seen = set()
-
+        # hash map -> {a:0, b: 1, c: 2}
+        charHash = {}
+        l, max_len = 0, 0
+        
         for r in range(len(s)):
-            ch = s[r]
-
-            while ch in seen:
-                seen.remove(s[l])
-                l += 1
-
-            seen.add(ch)
-            ans = max(ans, r - l + 1)
-
-        return ans
+            if s[r] in charHash and charHash[s[r]] != -1:
+                # Duplicate
+                fi = charHash[s[r]]
+                while l <= fi:
+                    charHash[s[l]] = -1
+                    l += 1
+            charHash[s[r]] = r
+            max_len = max(max_len, r - l + 1)
+        
+        return max_len
+        
+        
