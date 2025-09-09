@@ -1,9 +1,5 @@
 class Solution:
     def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
-        """
-        monotonically non-increasing queue
-        """
-
         queue = deque()
         ans = []
 
@@ -13,7 +9,7 @@ class Solution:
             
             queue.append(i)
 
-            if queue[0] + k == i:
+            if queue[0] <= i-k:
                 queue.popleft()
 
             if i >= k-1:
