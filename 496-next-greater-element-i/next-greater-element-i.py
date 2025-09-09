@@ -1,14 +1,5 @@
 class Solution:
     def nextGreaterElement(self, nums1: List[int], nums2: List[int]) -> List[int]:
-        """
-        Observations:
-        1. nums1 is subset of nums2
-        2. For each element of nums1
-            - find the index j such that nums1[i] == nums2[j]
-            - find th next greater element of nums2[j] in nums2
-        
-        for nums2, find the next greater element for each element - O(N)
-        """
         ans = [-1] * len(nums1)
         next_greater_element = [-1] * len(nums2)
         stack = [] # monotonic non-increasing stack
