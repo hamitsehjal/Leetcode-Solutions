@@ -1,6 +1,6 @@
 class Solution:
     def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
-        queue = deque()
+        queue = deque() # non-increasing queue
         ans = []
 
         for i in range(len(nums)):
@@ -8,11 +8,11 @@ class Solution:
                 queue.pop()
             
             queue.append(i)
-
-            if queue[0] <= i-k:
+            if i-k >= queue[0]:
                 queue.popleft()
 
             if i >= k-1:
+                # valid window
                 ans.append(nums[queue[0]])
-
+        
         return ans
