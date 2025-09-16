@@ -5,22 +5,33 @@
 #         self.next = next
 class Solution:
     def swapPairs(self, head: Optional[ListNode]) -> Optional[ListNode]:
-        dummy = ListNode(0,head)
-        prev,cur = dummy,head
+        """
 
-        while cur and cur.next:
+        Swap every two adjacent nodes
+        1 -> 2 -> 3 -> 4
+        prev = None
 
-            # save the ptrs
-            nxt_pair = cur.next.next
-            second = cur.next
-
-            # reverse the current pair
-            second.next = cur
-            cur.next = nxt_pair
-            prev.next = second
-
-            # update the ptrs
-            prev = cur
-            cur = nxt_pair
+        Edges-cases
+        - Odd number of nodes
+        - 0 nodes
+        - 1 node
+        """
+        prev = ListNode()
+        dummy = prev
+        cur = head
+        if cur and cur.next is None:
+            return cur
             
+        while cur and cur.next:
+            nxtNode = cur.next
+            secondNxtNode = cur.next.next
+
+            prev.next = nxtNode
+            nxtNode.next = cur
+            cur.next = secondNxtNode
+
+            prev = cur
+            cur = secondNxtNode
+        
         return dummy.next
+            
