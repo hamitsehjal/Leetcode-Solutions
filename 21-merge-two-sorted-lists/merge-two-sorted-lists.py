@@ -25,14 +25,16 @@ class Solution:
 
             cur = cur.next
 
-        while list1:
-            cur.next = list1
-            list1 = list1.next
-            cur = cur.next
+        # while list1:
+        #     cur.next = list1
+        #     list1 = list1.next
+        #     cur = cur.next
 
-        while list2:
-            cur.next = list2
-            list2 = list2.next
-            cur = cur.next
+        # while list2:
+        #     cur.next = list2
+        #     list2 = list2.next
+        #     cur = cur.next
+
+        cur.next = list1 or list2
 
         return dummy.next
