@@ -5,39 +5,46 @@
 #         self.next = next
 class Solution:
     def reorderList(self, head: Optional[ListNode]) -> None:
-        """
-        Do not return anything, modify head in-place instead.
-        """
-        dummy = ListNode(0,next=head)
-        # Find the middle node
-        slow,fast = dummy.next,dummy.next
+
+        slow = head
+        fast = head
 
         while fast and fast.next:
             slow = slow.next
             fast = fast.next.next
         
-        # Reverse the second part
-        
+        # reverse the second part
         cur = slow.next
+        slow.next = None # severe the ties
+
         prev = None
-        slow.next = None
 
         while cur:
-            next_node = cur.next
+            nxtNode = cur.next
             cur.next = prev
             prev = cur
-            cur = next_node
+            cur = nxtNode
         
-        # merge the two lists
-        list1 = dummy.next
-        list2 = prev
 
-        while list2:
-            next_start = list1.next
-            next_end = list2.next
+        # merge the parts
+        cur1 = head
+        cur2 = prev
 
-            list1.next = list2
-            list2.next = next_start
+        while cur1 and cur2:
+            nxtNodeCur1 = cur1.next
+            nxtNodeCur2 = cur2.next
 
-            list1 = next_start
-            list2 = next_end
+            cur1.next = cur2
+            cur2.next = nxtNodeCur1
+
+            cur1 = nxtNodeCur1
+            cur2 = nxtNodeCur2
+        
+
+        return head
+
+
+
+        
+
+        
