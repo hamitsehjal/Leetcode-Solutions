@@ -1,15 +1,5 @@
 class Solution:
     def search(self, nums: List[int], target: int) -> int:
-        """
-        [5,1,3], target = 5
-        [0,1,2]
-
-        while 0 <= 2:
-            mid = 1
-            if 1 == 5:
-                ...
-            elif 5 <= 5 <= 1
-        """
         l = 0
         r = len(nums) - 1
 
