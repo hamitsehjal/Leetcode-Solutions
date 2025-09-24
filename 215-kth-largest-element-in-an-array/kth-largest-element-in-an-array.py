@@ -8,11 +8,12 @@ class Solution:
             - remove the root (max element) - O(log n)
         """
 
-        heap = [-num for num in nums]
-        heapq.heapify(heap)
+        heap = []
 
-        ans = None
-        for _ in range(k):
-            ans = heapq.heappop(heap)
+        for num in nums:
+            heapq.heappush(heap,num)
 
-        return -ans
+            if len(heap) > k:
+                heapq.heappop(heap)
+        
+        return heap[0]
