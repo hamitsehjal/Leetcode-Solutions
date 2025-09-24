@@ -14,7 +14,7 @@ class Solution:
 
         for point in points:
             x,y = point
-            distance = -(math.sqrt((x**2) + (y**2)))
+            distance = -((x**2) + (y**2))
             heapq.heappush(max_heap,(distance,point))
 
             if len(max_heap) > k:
